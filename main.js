@@ -6,10 +6,12 @@ var gLevel
 var gGame
 var mineCount
 
-const BOMB = '💣'
 
 const ROWS = 4
 const COLS = 4
+
+const BOMB = '💣'
+const MINES = 2
 
 // Main
 function onInit() {
@@ -18,29 +20,31 @@ function onInit() {
 }
 
 function buildBoard() {
-
     var board = []
 
     for (var i = 0; i < ROWS; i++) {
         board.push([])
         for (var j = 0; j < COLS; j++) {
-            board[i][j] = createCell()
-            if (i === 0 && j === 0) board[i][j].isMine = true
-            if (i === 3 && j === 3) board[i][j].isMine = true
+            board[i][j] = {
+                minesAroundCount: 0,
+                isShown: false,
+                isMine: false,
+                isMarked: false
+            }
         }
     }
+    placeMines(board)
     return board
 }
 
-function createCell() {
-    return {
-        minesAroundCount: 0,
-        isShown: false,
-        isMine: false,
-        isMarked: false
+function placeMines(board) {
+    for (var i = 0; i < MINES; i++) {
+        var randRow = getRandomInt(0, ROWS)
+        var randCol = getRandomInt(0, COLS)
+
+        board[randRow][randCol].isMine = true
     }
 }
-
 
 function setMinesNegsCount(board) {
     for (var i = 0; i < board.length; i++) {
@@ -88,6 +92,7 @@ function renderBoard(board) {
     elBoard.innerHTML = strHTML
 
 }
+
 
 function onCellClicked(elCell, i, j) {
     var cell = gBoard[i][j]
