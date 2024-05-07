@@ -10,13 +10,23 @@
 
 <body onload="onInit()">
     <div>
+        <div></div>
         <h1>Mine Sweeper</h1>
+        <button class="Difficulty" onclick="chooseDifficulty(4, 2)">Beginner</button>
+        <button class="Difficulty" onclick="chooseDifficulty(8, 14)">Medium</button>
+        <button class="Difficulty" onclick="chooseDifficulty(12, 32)">Expert</button>
+        <br>
+        <button class="restart" onclick="restart()">😃</button>
     </div>
 
     <div class="table-container">
-            <table class="table">
-                <tbody class="board"></tbody>
-            </table>
+        <table class="table">
+            <tbody class="board"></tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        <h1 class="copyrights">Created By Nir Levi <span class="year">2024</span></h1>
     </div>
 
     <script src="util.js"></script>

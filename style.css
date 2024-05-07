@@ -6,6 +6,7 @@ body {
     background-color: #f0f0f0;
     text-align: center;
     font-family: Arial, sans-serif;
+    /* min-height: calc(600vh - 10px - 0px); */
 }
 
 .table-container {
@@ -29,3 +30,17 @@ body {
     cursor: pointer;
 }
 
+.reveal-cell {
+    background-color: #df2323;
+}
+
+.restart {
+    margin-top: 20px;
+}
+.footer {
+    background-color: rgb(172, 197, 197);
+}
+
+.year {
+    font-size: 15px;
+}
