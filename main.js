@@ -118,15 +118,15 @@ function renderBoard(board) {
 
 function onCellClicked(elCell, i, j) {
     var cell = gBoard[i][j]
-    
+
     if (!gGame.isOn) {
         gGame.isOn = true
         placeMines(gBoard, i, j)
         setMinesNegsCount(gBoard)
     }
-    
+
     if (gGame.isOn === false || cell.isShown || cell.isMarked) return // not reaching need to fix
-    
+
     if (cell.isMine) {
         revealMines(gBoard)
         document.querySelector('.restart').innerHTML = '😢'
@@ -139,6 +139,10 @@ function onCellClicked(elCell, i, j) {
         cell.isShown = true
         revelCells(gBoard, i, j)
         renderBoard(gBoard)
+
+        if (checkGameWin(gBoard)) {
+            gameOver(true)
+        }
     }
 }
 
@@ -152,7 +156,7 @@ function revealMines(board) {
 }
 
 function gameOver(isWin) {
-    
+
     if (isWin) {
         alert('Congratulations! You won!')
     } else {
@@ -169,16 +173,30 @@ function chooseDifficulty(size, mines) {
 
 function rightClickFlag(event, elCell, i, j) {
     event.preventDefault()
-    
+
     var cell = gBoard[i][j]
     if (!gGame.isOn || cell.isShown) return;
-    
+
     cell.isMarked = !cell.isMarked
     elCell.innerText = cell.isMarked ? FLAG : ''
-    
+
     renderBoard(gBoard)
 }
 
 function expandShown(board, elCell, i, j) {
 
+}
+
+function checkGameWin(board) {
+    var countOpenNonMineCells = 0
+
+    for (var i = 0; i < board.length; i++) {
+        for (var j = 0; j < board[i].length; j++) {
+            if (!board[i][j].isMine && board[i][j].isShown) {
+                countOpenNonMineCells++
+            }
+        }
+    }
+    var totalNonMineCells = (gLevel.SIZE * gLevel.SIZE) - gLevel.MINES
+    return countOpenNonMineCells === totalNonMineCells
 }
