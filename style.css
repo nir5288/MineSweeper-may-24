@@ -6,7 +6,6 @@ body {
     background-color: #f0f0f0;
     text-align: center;
     font-family: Arial, sans-serif;
-    /* min-height: calc(600vh - 10px - 0px); */
 }
 
 .table-container {
@@ -31,7 +30,12 @@ body {
 }
 
 .reveal-cell {
-    background-color: #df2323;
+    background-color: #a1a1a1;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #999;
+    text-align: center;
+    font-size: 20px;
 }
 
 .restart {
@@ -44,3 +48,13 @@ body {
 .year {
     font-size: 15px;
 }
+
+.number-1 {
+    color: blue;
+}
+
+.number-2 {
+    color: green;
+}
+
+

@@ -84,7 +84,6 @@ function revelCells(board, rowIdx, colIdx) {
             if (board[i][j].isMine) continue
 
             board[i][j].isShown = true
-            document.querySelector(`.cell-${i}-${j}`).classList.add(`.reveal-cell`)
         }
     }
 }
@@ -97,16 +96,30 @@ function renderBoard(board) {
         strHTML += '<tr>'
 
         for (var j = 0; j < board[i].length; j++) {
-
-            const className = `cell cell-${i}-${j}`
+            var className = `cell cell-${i}-${j}`
             const onCellClick = `onclick="onCellClicked(this, ${i}, ${j})"`
-            const onRightClick = `oncontextmenu="rightClickFlag(event, this, ${i}, ${j}); return false;"`;
+            const onRightClick = `oncontextmenu="rightClickFlag(event, this, ${i}, ${j}); return false;"`
 
+            if (board[i][j].isShown && (gBoard[i][j].isMine === false)) {
+                className = `reveal-cell`
+            }
             strHTML += `<td class="${className}" ${onCellClick} ${onRightClick}>`
 
-            strHTML += `${(gBoard[i][j].isMine && gBoard[i][j].isShown && (!gBoard[i][j].isMarked)) ? BOMB : ' '}`
-            strHTML += `${(gBoard[i][j].isShown) ? board[i][j].minesAroundCount : ' '}`
-            strHTML += `${(gBoard[i][j].isMarked) ? FLAG : ' '}`
+            if (gBoard[i][j].isShown) {
+                if (gBoard[i][j].isMine) {
+                    strHTML += BOMB
+                } else {
+                    const number = gBoard[i][j].minesAroundCount;
+                    if (number !== 0) {
+                        strHTML += `<span class="number-${number}">${number}</span>`
+                    }
+                }
+                if (!gBoard[i][j].isMine) {
+                    strHTML += `</td>`
+                }
+            } else if (gBoard[i][j].isMarked) {
+                strHTML += FLAG;
+            }
 
             strHTML += `</td>`
         }
@@ -117,6 +130,7 @@ function renderBoard(board) {
 
 
 function onCellClicked(elCell, i, j) {
+    console.log(elCell)
     var cell = gBoard[i][j]
 
     if (!gGame.isOn) {
@@ -175,7 +189,7 @@ function rightClickFlag(event, elCell, i, j) {
     event.preventDefault()
 
     var cell = gBoard[i][j]
-    if (!gGame.isOn || cell.isShown) return;
+    if (!gGame.isOn || cell.isShown) return
 
     cell.isMarked = !cell.isMarked
     elCell.innerText = cell.isMarked ? FLAG : ''
